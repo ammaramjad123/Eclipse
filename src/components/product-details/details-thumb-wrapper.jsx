@@ -12,28 +12,33 @@ const DetailsThumbWrapper = ({
   status
 }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
     <>
       <div className="tp-product-details-thumb-wrapper tp-tab d-sm-flex">
-        <nav>
-          <div className="nav nav-tabs flex-sm-column">
-            {imageURLs?.map((item, i) => (
-              <button
-                key={i}
-                className={`nav-link ${item.img === activeImg ? "active" : ""}`}
-                onClick={() => handleImageActive(item)}
-              >
-                <Image
-                  src={item.img}
-                  alt="image"
-                  width={78}
-                  height={100}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </button>
-            ))}
-          </div>
-        </nav>
+        {/* ✅ Only show thumbnails if there’s more than 1 image */}
+        {imageURLs?.length > 1 && (
+          <nav>
+            <div className="nav nav-tabs flex-sm-column">
+              {imageURLs?.map((item, i) => (
+                <button
+                  key={i}
+                  className={`nav-link ${item.img === activeImg ? "active" : ""}`}
+                  onClick={() => handleImageActive(item)}
+                >
+                  <Image
+                    src={item.img}
+                    alt="image"
+                    width={78}
+                    height={100}
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
+
         <div className="tab-content m-img">
           <div className="tab-pane fade show active">
             <div className="tp-product-details-nav-main-thumb p-relative">
@@ -44,7 +49,9 @@ const DetailsThumbWrapper = ({
                 height={imgHeight}
               />
               <div className="tp-product-badge">
-                {status === 'out-of-stock' && <span className="product-hot">out-stock</span>}
+                {status === "out-of-stock" && (
+                  <span className="product-hot">out-stock</span>
+                )}
               </div>
               {videoId && (
                 <div
@@ -60,6 +67,7 @@ const DetailsThumbWrapper = ({
           </div>
         </div>
       </div>
+
       {/* modal popup start */}
       {videoId && (
         <PopupVideo

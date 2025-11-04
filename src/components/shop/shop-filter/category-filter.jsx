@@ -12,6 +12,28 @@ const CategoryFilter = ({setCurrPage,shop_right=false}) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  // ✅ Display Name Mapping (only for showing text)
+  const getDisplayName = (name) => {
+    const rename = {
+      "Headphones": "Formal Shirts",
+      "Mobile Tablets": "T-Shirts",
+      "CPU Heat Pipes": "Polo Shirts",
+      "Smart Watch": "Hoodies & Sweatshirts",
+      "Bluetooth": "Blazers & Suits",
+      "Clothing": "Jackets",
+      "Bags": "Jeans",
+      "Shoes": "Trousers & Chinos",
+      "Discover Skincare": "Sneakers",
+      "Beauty of Skin": "Formal Shoes",
+      "Awesome Lip Care": "Belts",
+      "Facial Care": "Wallets",
+      "Bracelets": "Watches",
+      "Earrings": "Sunglasses",
+      "Necklaces": "Perfumes & Body Sprays",
+    };
+    return rename[name] || name;
+  };
+
   // handle category route
   const handleCategoryRoute = (title) => {
     setCurrPage(1);
@@ -50,7 +72,7 @@ const CategoryFilter = ({setCurrPage,shop_right=false}) => {
               : ""
           }
         >
-          {item.parent} <span>{item.products.length}</span>
+          {getDisplayName(item.parent)} <span>{item.products.length}</span>
         </a>
       </li>
     ));

@@ -7,6 +7,30 @@ import ShopCategoryLoader from "../loader/shop/shop-category-loader";
 const ShopCategoryArea = () => {
   const { data: categories, isLoading, isError } = useGetShowCategoryQuery();
   const router = useRouter();
+
+    // ✅ Display Name Mapping (Updated)
+  const getDisplayName = (name) => {
+    const rename = {
+      "Headphones": "Formal Shirts",
+      "Mobile Tablets": "T-Shirts",
+      "CPU Heat Pipes": "Polo Shirts",
+      "Smart Watch": "Hoodies & Sweatshirts",
+      "Bluetooth": "Blazers & Suits",
+      "Clothing": "Jackets",
+      "Bags": "Jeans",
+      "Shoes": "Trousers & Chinos",
+      "Discover Skincare": "Sneakers",
+      "Beauty of Skin": "Formal Shoes",
+      "Awesome Lip Care": "Belts",
+      "Facial Care": "Wallets",
+      "Bracelets": "Watches",
+      "Earrings": "Sunglasses",
+      "Necklaces": "Perfumes & Body Sprays",
+    };
+    return rename[name] || name;
+  };
+
+
   // handle category route
   const handleCategoryRoute = (title) => {
     router.push(
@@ -43,7 +67,8 @@ const ShopCategoryArea = () => {
               className="tp-category-main-title pb-1"
               onClick={() => handleCategoryRoute(item.parent)}
             >
-              <a className="cursor-pointer">{item.parent}</a>
+              {/* ✅ Only display name changed here */}
+              <a className="cursor-pointer">{getDisplayName(item.parent)}</a>
             </h3>
             <span className="tp-category-main-item">
               {item.products.length} Products

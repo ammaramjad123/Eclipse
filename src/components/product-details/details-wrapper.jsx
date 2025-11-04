@@ -16,7 +16,7 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
   const { sku, img, title, imageURLs, category, description, discount, price, status, reviews, tags, offerDate } = productItem || {};
   const [ratingVal, setRatingVal] = useState(0);
   const [textMore, setTextMore] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (reviews && reviews.length > 0) {
@@ -65,8 +65,12 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           </div>
         </div>
       </div>
-      <p>{textMore ? description : `${description.substring(0, 100)}...`}
-        <span onClick={() => setTextMore(!textMore)}>{textMore ? 'See less' : 'See more'}</span>
+
+      <p>
+        {textMore ? description : `${description.substring(0, 100)}...`}
+        <span onClick={() => setTextMore(!textMore)}>
+          {textMore ? 'See less' : 'See more'}
+        </span>
       </p>
 
       {/* price */}
@@ -84,27 +88,38 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
       </div>
 
       {/* variations */}
-      {imageURLs.some(item => item?.color && item?.color?.name) && <div className="tp-product-details-variation">
-        <div className="tp-product-details-variation-item">
-          <h4 className="tp-product-details-variation-title">Color :</h4>
-          <div className="tp-product-details-variation-list">
-            {imageURLs.map((item, i) => (
-              <button onClick={() => handleImageActive(item)} key={i} type="button"
-                className={`color tp-color-variation-btn ${item.img === activeImg ? "active" : ""}`} >
-                <span
-                  data-bg-color={`${item.color.clrCode}`}
-                  style={{ backgroundColor: `${item.color.clrCode}` }}
-                ></span>
-                {item.color && item.color.name && (
-                  <span className="tp-color-variation-tootltip">
-                    {item.color.name}
-                  </span>
-                )}
-              </button>
-            ))}
+      {imageURLs.some(item => item?.color && item?.color?.name) && (
+        <div className="tp-product-details-variation">
+          <div className="tp-product-details-variation-item">
+            <h4 className="tp-product-details-variation-title">Color :</h4>
+            <div className="tp-product-details-variation-list">
+              {/* ✅ Only show unique colors */}
+              {[...new Map(imageURLs.map(item => [item.color?.clrCode, item])).values()].map(
+                (uniqueItem, i) => (
+                  <button
+                    onClick={() => handleImageActive(uniqueItem)}
+                    key={i}
+                    type="button"
+                    className={`color tp-color-variation-btn ${
+                      uniqueItem.img === activeImg ? "active" : ""
+                    }`}
+                  >
+                    <span
+                      data-bg-color={uniqueItem.color?.clrCode}
+                      style={{ backgroundColor: uniqueItem.color?.clrCode }}
+                    ></span>
+                    {uniqueItem.color?.name && (
+                      <span className="tp-color-variation-tootltip">
+                        {uniqueItem.color.name}
+                      </span>
+                    )}
+                  </button>
+                )
+              )}
+            </div>
           </div>
         </div>
-      </div>}
+      )}
 
       {/* if ProductDetailsCountdown true start */}
       {offerDate?.endDate && <ProductDetailsCountdown offerExpiryTime={offerDate?.endDate} />}
@@ -118,20 +133,37 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           <ProductQuantity />
           {/* product quantity */}
           <div className="tp-product-details-add-to-cart mb-15 w-100">
-            <button onClick={() => handleAddProduct(productItem)} disabled={status === 'out-of-stock'} className="tp-product-details-add-to-cart-btn w-100">Add To Cart</button>
+            <button
+              onClick={() => handleAddProduct(productItem)}
+              disabled={status === 'out-of-stock'}
+              className="tp-product-details-add-to-cart-btn w-100"
+            >
+              Add To Cart
+            </button>
           </div>
         </div>
         <Link href="/cart" onClick={() => dispatch(handleModalClose())}>
           <button className="tp-product-details-buy-now-btn w-100">Buy Now</button>
         </Link>
       </div>
+
       {/* product-details-action-sm start */}
       <div className="tp-product-details-action-sm">
-        <button disabled={status === 'out-of-stock'} onClick={() => handleCompareProduct(productItem)} type="button" className="tp-product-details-action-sm-btn">
+        <button
+          disabled={status === 'out-of-stock'}
+          onClick={() => handleCompareProduct(productItem)}
+          type="button"
+          className="tp-product-details-action-sm-btn"
+        >
           <CompareTwo />
           Compare
         </button>
-        <button disabled={status === 'out-of-stock'} onClick={() => handleWishlistProduct(productItem)} type="button" className="tp-product-details-action-sm-btn">
+        <button
+          disabled={status === 'out-of-stock'}
+          onClick={() => handleWishlistProduct(productItem)}
+          type="button"
+          className="tp-product-details-action-sm-btn"
+        >
           <WishlistTwo />
           Add Wishlist
         </button>
