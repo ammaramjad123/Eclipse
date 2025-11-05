@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
 // internal
-import insta_1 from "@assets/img/instagram/3/instagram-1.jpg";
-import insta_2 from "@assets/img/instagram/3/instagram-2.jpg";
-import insta_3 from "@assets/img/instagram/3/instagram-3.jpg";
-import insta_4 from "@assets/img/instagram/3/instagram-4.jpg";
-import insta_5 from "@assets/img/instagram/3/instagram-5.jpg";
-import insta_6 from "@assets/img/instagram/3/instagram-6.jpg";
+import insta_1 from "@assets/img/instagram/3/instagram-1.png";
+import insta_2 from "@assets/img/instagram/3/instagram-2.png";
+import insta_3 from "@assets/img/instagram/3/instagram-3.png";
+import insta_4 from "@assets/img/instagram/3/instagram-4.png";
+import insta_5 from "@assets/img/instagram/3/instagram-5.png";
+import insta_6 from "@assets/img/instagram/3/instagram-6.png";
 
 // instagram data
 const instagram_data = [
