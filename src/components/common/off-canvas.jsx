@@ -5,31 +5,23 @@ import Image from 'next/image';
 import { CloseTwo } from '@/svg';
 import logo from '@assets/img/logo/logo.svg';
 import contact_img from '@assets/img/icon/contact.png';
-import language_img from '@assets/img/icon/language-flag.png';
+// ✅ Replaced low-quality PNG with a proper high-resolution SVG flag
+import language_img from '@assets/img/logo/logo3.svg';
 import MobileCategory from '@/layout/headers/header-com/mobile-category';
 import MobileMenus from './mobile-menus';
 
-const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen,categoryType = "electronics" }) => {
+const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen, categoryType = "electronics" }) => {
   const [isCategoryActive, setIsCategoryActive] = useState(false);
-  const [isCurrencyActive, setIsCurrencyActive] = useState(false);
-  const [isLanguageActive, setIsLanguageActive] = useState(false);
 
-  // handle language active
-  const handleLanguageActive = () => {
-    setIsLanguageActive(!isLanguageActive)
-    setIsCurrencyActive(false)
-  }
-  // handle Currency active
-  const handleCurrencyActive = () => {
-    setIsCurrencyActive(!isCurrencyActive)
-    setIsLanguageActive(false)
-  }
   return (
     <>
       <div className={`offcanvas__area offcanvas__radius ${isOffCanvasOpen ? "offcanvas-opened" : ""}`}>
         <div className="offcanvas__wrapper">
           <div className="offcanvas__close">
-            <button onClick={() => setIsCanvasOpen(false)} className="offcanvas__close-btn offcanvas-close-btn">
+            <button
+              onClick={() => setIsCanvasOpen(false)}
+              className="offcanvas__close-btn offcanvas-close-btn"
+            >
               <CloseTwo />
             </button>
           </div>
@@ -41,8 +33,13 @@ const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen,categoryType = "electronic
                 </Link>
               </div>
             </div>
+
+            {/* ===== Categories ===== */}
             <div className="offcanvas__category pb-40">
-              <button onClick={() => setIsCategoryActive(!isCategoryActive)} className="tp-offcanvas-category-toggle">
+              <button
+                onClick={() => setIsCategoryActive(!isCategoryActive)}
+                className="tp-offcanvas-category-toggle"
+              >
                 <i className="fa-solid fa-bars"></i>
                 All Categories
               </button>
@@ -52,60 +49,62 @@ const OffCanvas = ({ isOffCanvasOpen, setIsCanvasOpen,categoryType = "electronic
                 </nav>
               </div>
             </div>
+
+            {/* ===== Menus ===== */}
             <div className="tp-main-menu-mobile fix d-lg-none mb-40">
               <MobileMenus />
             </div>
 
-            <div className="offcanvas__contact align-items-center d-none">
-              <div className="offcanvas__contact-icon mr-20">
-                <span>
-                  <Image src={contact_img} alt="contact_img" />
-                </span>
-              </div>
-              <div className="offcanvas__contact-content">
-                <h3 className="offcanvas__contact-title">
-                  <a href="tel:098-852-987">004524865</a>
-                </h3>
-              </div>
-            </div>
+            {/* ===== Contact Button ===== */}
             <div className="offcanvas__btn">
-              <Link href="/contact" className="tp-btn-2 tp-btn-border-2">Contact Us</Link>
+              <Link href="/contact" className="tp-btn-2 tp-btn-border-2">
+                Contact Us
+              </Link>
             </div>
           </div>
+
+          {/* ===== Bottom Section ===== */}
           <div className="offcanvas__bottom">
             <div className="offcanvas__footer d-flex align-items-center justify-content-between">
+              
+              {/* ✅ Currency - static text (no dropdown) */}
               <div className="offcanvas__currency-wrapper currency">
-                <span onClick={handleCurrencyActive} className="offcanvas__currency-selected-currency tp-currency-toggle" id="tp-offcanvas-currency-toggle">Currency : USD</span>
-                <ul className={`offcanvas__currency-list tp-currency-list ${isCurrencyActive ? 'tp-currency-list-open' : ''}`}>
-                  <li>USD</li>
-                  <li>ERU</li>
-                  <li>BDT </li>
-                  <li>INR</li>
-                </ul>
+                <span className="">
+                  Currency : USD
+                </span>
               </div>
+
+              {/* ✅ Language - static flag & label, no dropdown */}
               <div className="offcanvas__select language">
                 <div className="offcanvas__lang d-flex align-items-center justify-content-md-end">
                   <div className="offcanvas__lang-img mr-15">
-                    <Image src={language_img} alt="language-flag" />
+                    <Image
+                      src={language_img}
+                      alt="US flag"
+                      width={28}
+                      height={20}
+                      priority
+                      style={{ borderRadius: "3px" }}
+                    />
                   </div>
                   <div className="offcanvas__lang-wrapper">
-                    <span onClick={handleLanguageActive} className="offcanvas__lang-selected-lang tp-lang-toggle" id="tp-offcanvas-lang-toggle">English</span>
-                    <ul className={`offcanvas__lang-list tp-lang-list ${isLanguageActive ? 'tp-lang-list-open' : ''}`}>
-                      <li>Spanish</li>
-                      <li>Portugese</li>
-                      <li>American</li>
-                      <li>Canada</li>
-                    </ul>
+                    <span className="">
+                      English
+                    </span>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
-      {/* body overlay start */}
-      <div onClick={() => setIsCanvasOpen(false)} className={`body-overlay ${isOffCanvasOpen ? 'opened' : ''}`}></div>
-      {/* body overlay end */}
+
+      {/* Body overlay */}
+      <div
+        onClick={() => setIsCanvasOpen(false)}
+        className={`body-overlay ${isOffCanvasOpen ? 'opened' : ''}`}
+      ></div>
     </>
   );
 };
